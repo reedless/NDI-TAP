@@ -22,23 +22,23 @@
         </table>
         <h2>Flight Booking</h2>
         <a href="../jsp/singpassLogin.jsp" onclick="clickAndDisable(this);">
-          <!-- <img
-            src="../images/loginsingpass.png"
+          <img
+            src="../assets/loginsingpass.png"
             class="img-fluid"
             width="230"
             border="0"
             alt="Login with Singpass"
-            title="Login with Singpass"> -->
+            title="Login with Singpass">
         </a>
-        <!-- <div v-if="!$auth.loading"> -->
+        <div v-if="!$auth.loading">
           <!-- show login when not authenticated -->
-          <!-- <button v-if="!$auth.isAuthenticated" @click="login">Log in</button> -->
+          <button v-if="!$auth.isAuthenticated" @click="login">Log in</button>
           <!-- show logout when authenticated -->
-          <!-- <button v-if="$auth.isAuthenticated" @click="logout">Log out</button> -->
-        <!-- </div> -->
-        <!-- <div id="nav"> -->
-          <!-- <router-link v-if="$auth.isAuthenticated" to="/profile">Profile</router-link> -->
-        <!-- </div> -->
+          <button v-if="$auth.isAuthenticated" @click="logout">Log out</button>
+        </div>
+        <div id="nav">
+          <router-link v-if="$auth.isAuthenticated" to="/profile">Profile</router-link>
+        </div>
       </div>
     </div>
   </div>

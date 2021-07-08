@@ -3,13 +3,19 @@
     <div
       v-if="hasAccess"
       id="nav"
-    >
-      <router-link to="/">Home</router-link> |
-      <router-link to="/protected">Protected</router-link> |
-      <a v-if="oidcIsAuthenticated" href @click.prevent="signOut">Sign out</a>
-      <a v-else href @click.prevent="authenticateOidcPopup">Sign in</a>
+      style="float: right;">
+      <b-button
+        v-if="oidcIsAuthenticated"
+        href @click.prevent="signOut"
+        variant="outline-danger">Sign out</b-button>
+      <b-button
+        v-else href
+        @click.prevent="login"
+        variant="danger">Log in with Singpass</b-button>
     </div>
-    <router-view/>
+    <div id="nav">
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -40,6 +46,9 @@ export default {
     automaticSilentRenewError: function (e) {
       console.log('I am listening to the automaticSilentRenewError event in vuex-oidc', e.detail)
     },
+    login: function () {
+      this.$router.push('/protected')
+    },
     signOut: function () {
       this.removeOidcUser().then(() => {
         this.$router.push('/')
@@ -64,7 +73,7 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: left;
   color: #2c3e50;
 }
 #nav {

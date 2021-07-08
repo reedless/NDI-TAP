@@ -1,26 +1,38 @@
 <template>
-  <div
-    v-if="oidcIsAuthenticated"
-  >
-    <p>
-      You are signed in as:
-    </p>
-    <div style="width:100%;max-width:640px;height: 200px;margin: 0 auto;font-family: monospace;" v-html="userDisplay"></div>
-    <p>
-      Id token
-    </p>
-    <p>
-      expires {{ new Date(oidcIdTokenExp).toISOString() }}
-    </p>
-    <textarea readonly style="width:100%;max-width:640px;height: 200px;margin: 0 auto;font-family: monospace;" v-model="oidcIdToken"></textarea>
+  <div>
+    <h2>Flight Booking</h2>
+    <div
+      v-if="oidcIsAuthenticated"
+    >
+      <p>
+        You are signed in as:
+      </p>
+      <div style="width:100%;max-width:640px;height: 200px;margin: 0 auto;font-family: monospace;" v-html="userDisplay"></div>
+      <br>
+      <br>
+      <p>
+        Id token expires {{ new Date(oidcIdTokenExp).toISOString() }}
+      </p>
+      <textarea readonly style="width:100%;max-width:640px;height: 200px;margin: 0 auto;font-family: monospace;" v-model="oidcIdToken"></textarea>
 
-    <p>
-      <button @click="reauthenticate">Reauthenticate silently</button>
-    </p>
+      <p>
+        <button @click="reauthenticate">Reauthenticate silently</button>
+      </p>
 
+    </div>
+    <div v-else>
+    <!-- <div v-else-if="oidcAuthenticationIsChecked"> -->
+      <a href="/protected" onclick="clickAndDisable(this);">
+        <img
+          src="../assets/loginsingpass.png"
+          class="img-fluid"
+          width="230"
+          border="0"
+          alt="Login with Singpass"
+          title="Login with Singpass">
+      </a>
+    </div>
   </div>
-  <p v-else-if="oidcAuthenticationIsChecked">You are not signed in</p>
-  <p v-else>Silent renew is in progress...</p>
 </template>
 
 <script>

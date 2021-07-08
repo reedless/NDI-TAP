@@ -8,6 +8,8 @@
       book your airplane ticket, eRegister your trip,
       and sign up for alerts which might affect your travel plans!</p>
 
+    <SignedInUser :countries=this.countries />
+
     <h2 style="display: inline-block;">Travel Allowances</h2>
     <b-button
         href @click.prevent="signUpAlerts"
@@ -31,7 +33,6 @@
       </tbody>
     </table>
     <br>
-    <SignedInUser />
   </div>
 </template>
 

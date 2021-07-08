@@ -9,11 +9,13 @@
     "uselocaldep": "cp ../vuex-oidc/dist/vuex-oidc.esm.js ./node_modules/vuex-oidc/dist/vuex-oidc.esm.js"
   },
   "dependencies": {
+    "@popperjs/core": "^2.9.2",
     "axios": "^0.21.1",
     "bootstrap-vue": "^2.21.2",
     "oidc-client": "^1.10.1",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
+    "vuejs-datepicker": "^1.6.2",
     "vuex": "^3.0.1",
     "vuex-oidc": "^3.9.8"
   },

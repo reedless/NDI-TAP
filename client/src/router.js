@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import About from './views/About.vue'
 import Home from './views/Home.vue'
-import Profile from './views/Profile.vue';
-import authGuard from './auth/authGuard';
+import OidcCallback from './views/OidcCallback.vue'
+import OidcPopupCallback from './views/OidcPopupCallback.vue'
+import OidcCallbackError from './views/OidcCallbackError.vue'
+import { vuexOidcCreateRouterMiddleware } from 'vuex-oidc'
+import store from '@/store'
 
 Vue.use(Router)
-
-const DEFAULT_TITLE = 'NDI-TAP WebApp';
 
 const router = new Router({
   mode: 'history',
@@ -17,31 +17,36 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: Home,
-      meta: { title: 'NDI-TAP WebApp' },
+      meta: {
+        isPublic: true
+      }
     },
     {
-      path: '/profile',
-      name: 'profile',
-      component: Profile,
-      meta: { title: 'MyInfo' },
-      beforeEnter: authGuard,
+      path: '/protected',
+      name: 'protected',
+      component: () => import(/* webpackChunkName: "protected" */ './views/Protected.vue')
     },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   component: About
-    //   // // route level code-splitting
-    //   // // this generates a separate chunk (about.[hash].js) for this route
-    //   // // which is lazy-loaded when the route is visited.
-    //   // component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    // }
+    {
+      path: '/oidc-callback', // Needs to match redirectUri in you oidcSettings
+      name: 'oidcCallback',
+      component: OidcCallback
+    },
+    {
+      path: '/oidc-popup-callback', // Needs to match popupRedirectUri in you oidcSettings
+      name: 'oidcPopupCallback',
+      component: OidcPopupCallback
+    },
+    {
+      path: '/oidc-callback-error', // Needs to match redirect_uri in you oidcSettings
+      name: 'oidcCallbackError',
+      component: OidcCallbackError,
+      meta: {
+        isPublic: true
+      }
+    }
   ]
-});
+})
 
-router.afterEach((to) => {
-  Vue.nextTick(() => {
-    document.title = to.meta.title || DEFAULT_TITLE;
-  });
-});
+router.beforeEach(vuexOidcCreateRouterMiddleware(store, 'oidcStore'))
 
-export default router;
+export default router

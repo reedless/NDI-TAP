@@ -1,6 +1,12 @@
+import csv
 import uuid
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+
+with open('./countrylist.csv') as csvfile:
+  reader = csv.reader(csvfile, delimiter=',')
+  for line in reader:
+    ALL_COUNTRIES = line
 
 COUNTRIES = [
     {
@@ -44,6 +50,14 @@ def remove_country(country_id):
             COUNTRIES.remove(country)
             return True
     return False
+
+@app.route('/countrylist', methods=['GET'])
+def country_list():
+  response_object = {
+    'status': 'success',
+    'country_list': ALL_COUNTRIES
+    }
+  return jsonify(response_object)
 
 @app.route('/countries', methods=['GET', 'POST'])
 def all_countrys():

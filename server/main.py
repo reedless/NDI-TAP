@@ -13,19 +13,22 @@ COUNTRIES = [
         'id': uuid.uuid4().hex,
         'name': 'Malaysia',
         'vaccinated': 'Yes',
-        'non_vaccinated': 'Yes'
+        'non_vaccinated': 'Yes',
+        'airportCode': 'KUL'
     },
     {
         'id': uuid.uuid4().hex,
         'name': 'Taiwan',
         'vaccinated': 'Yes, with 14 day quarantine',
-        'non_vaccinated': 'No'
+        'non_vaccinated': 'No',
+        'airportCode': 'TPE'
     },
     {
         'id': uuid.uuid4().hex,
         'name': 'Brunei',
         'vaccinated': 'Yes',
-        'non_vaccinated': 'Yes, with 14 day quarantine'
+        'non_vaccinated': 'Yes, with 14 day quarantine',
+        'airportCode': 'BWN'
     }
 ]
 

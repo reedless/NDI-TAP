@@ -77,11 +77,17 @@
 import axios from 'axios'
 import { mapGetters, mapActions } from 'vuex'
 import Datepicker from 'vuejs-datepicker'
-import jsonMarkup from 'json-markup'
+import Vue from 'vue'
+import VueAxios from 'vue-axios'
+// import jsonMarkup from 'json-markup'
 
-const backendPath = process.env.VUE_APP_ROOT_API
+Vue.use(VueAxios, axios)
 
-// const flightSearchPath = process.env.SIA_API_FLIGHT_SEARCH
+const flightSearchPath = process.env.SIA_API_FLIGHT_SEARCH || `https://apigw.singaporeair.com/api/v1/commercial/flightavailability/get`
+const headers = {
+  'Content-Type': 'application/json',
+  'apikey': process.env.SIA_API_FLIGHT_SEARCH || 'z7m5yus6xwub4uebucx8e24y'
+}
 
 export default {
   name: 'FlightSearch',
@@ -92,17 +98,16 @@ export default {
   data () {
     const now = new Date()
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-    var yesterday = new Date(today)
-    yesterday.setDate(today.getDate() - 1)
+    var tomorrow = new Date(today)
+    tomorrow.setDate(today.getDate() + 1)
 
     return {
       from: 'SIN',
       to: 'Select Country',
-      min: yesterday,
       departDate: '',
       returnDate: '',
       disabledDates: {
-        to: yesterday
+        to: tomorrow
       }
     }
   },
@@ -113,10 +118,10 @@ export default {
       'oidcUser',
       'oidcIdToken',
       'oidcIdTokenExp'
-    ]),
-    userDisplay: function () {
-      return jsonMarkup(this.oidcUser)
-    }
+    ])
+    // userDisplay: function () {
+    //   return jsonMarkup(this.oidcUser)
+    // }
   },
   methods: {
     ...mapActions('oidcStore', ['authenticateOidcSilent', 'removeOidcUser']),
@@ -124,19 +129,53 @@ export default {
       this.authenticateOidcSilent()
         .catch(() => this.removeOidcUser())
     },
+    formatDate (date) {
+      var d = new Date(date)
+      var month = '' + (d.getMonth() + 1)
+      var day = '' + d.getDate()
+      var year = d.getFullYear()
+
+      if (month.length < 2) {
+        month = '0' + month
+      }
+      if (day.length < 2) {
+        day = '0' + day
+      }
+
+      return [year, month, day].join('-')
+    },
     flightSearch () {
       console.log('Inside flightSearch')
-      // const path = flightSearchPath
-      const path = `${backendPath}/countries`
-
-      axios.get(path)
-        .then((res) => {
-          this.countries = res.data.countries
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
-        })
+      const path = flightSearchPath
+      const data = {
+        'clientUUID': 'SQ-API-Flight-Search',
+        'request': {
+          'itineraryDetails': [
+            {
+              'originAirportCode': this.from,
+              'destinationAirportCode': this.to,
+              'departureDate': this.formatDate(this.departDate),
+              'returnDate': this.formatDate(this.returnDate)
+            }
+          ],
+          'cabinClass': 'Y',
+          'adultCount': 1,
+          'childCount': 0,
+          'infantCount': 0
+        }
+      }
+      console.log('POST flightSearch')
+      console.log(flightSearchPath)
+      console.log(headers)
+      console.log(data)
+      axios.post(path, data, {
+        headers: headers
+      }).then((response) => {
+        console.log(response)
+      }).catch((error) => {
+        // eslint-disable-next-line
+        console.error(error);
+      })
     }
   }
 }

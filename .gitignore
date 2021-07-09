@@ -1,3 +1,6 @@
 lib/
 *.pyc
 *.bak
+
+client/src/components/SignedInUser copy.vue
+response.json

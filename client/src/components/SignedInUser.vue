@@ -1,33 +1,33 @@
 <template>
   <div>
-    <h2>Flight Booking</h2>
+    <h2>Flight Search</h2>
     <div v-if="oidcIsAuthenticated">
       <div class="bootstrap-iso">
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <form>
+              <form @submit.prevent="flightSearch">
                 <div class="form-inline">
                   <label class="control-label" for="date">From: </label>
                   &ensp;
-                  <select class="custom-select" v-model="from">
-                    <option selected>Select Country</option>
-                    <option value="Singapore"> Singapore </option>
-                    <option
-                      v-for="(country, index) in countries" :key="index"
-                      :value=country.name>
-                        {{ country.name }}
-                    </option>
+                  <select class="custom-select" v-model="from" name="from">
+                    <!-- <option>Select Country</option> -->
+                    <option selected value="SIN"> Singapore </option>
+                    <!-- <option -->
+                      <!-- v-for="(country, index) in countries" :key="index" -->
+                      <!-- :value=country.airportCode> -->
+                        <!-- {{ country.name }} -->
+                    <!-- </option> -->
                   </select>
                   &emsp;
                   <label class="control-label" for="date">To: </label>
                   &ensp;
-                  <select class="custom-select" v-model="to">
+                  <select class="custom-select" v-model="to" name="to">
                     <option selected>Select Country</option>
-                    <option value="Singapore"> Singapore </option>
+                    <!-- <option value="SIN"> Singapore </option> -->
                     <option
                       v-for="(country, index) in countries" :key="index"
-                      :value=country.name>
+                      :value=country.airportCode>
                         {{ country.name }}
                     </option>
                   </select>
@@ -58,7 +58,7 @@
                 <br>
                 <p>{{ departDate }}, {{ returnDate }}</p>
                 <div class="form-group">
-                  <button class="btn btn-primary " name="submit" type="submit">Submit</button>
+                  <button class="btn btn-primary" type="submit">Submit</button>
                 </div>
               </form>
             </div>
@@ -82,9 +82,14 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { mapGetters, mapActions } from 'vuex'
 import Datepicker from 'vuejs-datepicker'
 import jsonMarkup from 'json-markup'
+
+const backendPath = process.env.VUE_APP_ROOT_API
+
+const flightSearchPath = process.env.SIA_API_FLIGHT_SEARCH
 
 export default {
   name: 'SignedInUser',
@@ -99,7 +104,7 @@ export default {
     yesterday.setDate(today.getDate() - 1)
 
     return {
-      from: 'Select Country',
+      from: 'SIN',
       to: 'Select Country',
       min: yesterday,
       departDate: '',
@@ -126,6 +131,20 @@ export default {
     reauthenticate () {
       this.authenticateOidcSilent()
         .catch(() => this.removeOidcUser())
+    },
+    flightSearch () {
+      console.log('Inside flightSearch')
+      // const path = flightSearchPath
+      const path = `${backendPath}/countries`
+
+      axios.get(path)
+        .then((res) => {
+          this.countries = res.data.countries
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+        })
     }
   }
 }

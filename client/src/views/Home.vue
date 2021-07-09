@@ -5,8 +5,9 @@
     <h1>All-in-One Travel Planner</h1>
     <p>Welcome to your all-in-one travel planner,
       where you can check the latest updates on travel restrictions,
-      book your airplane ticket, eRegister your trip,
-      and sign up for alerts which might affect your travel plans!</p>
+      search for flights,
+      sign up for alerts which might affect your travel plans,
+      and more!</p>
 
     <SignedInUser :countries=this.countries />
 

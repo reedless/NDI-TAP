@@ -5,6 +5,9 @@
       id="nav"
       style="float: right;">
       <b-button
+        href @click.prevent="eRegister"
+        variant="outline-primary">eRegister</b-button>
+      <b-button
         v-if="oidcIsAuthenticated"
         href @click.prevent="signOut"
         variant="outline-danger">Sign out</b-button>
@@ -53,6 +56,9 @@ export default {
       this.removeOidcUser().then(() => {
         this.$router.push('/')
       })
+    },
+    eRegister: function () {
+      window.open('https://eregister.mfa.gov.sg/')
     }
   },
   mounted () {

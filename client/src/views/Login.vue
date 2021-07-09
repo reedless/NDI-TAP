@@ -5,7 +5,7 @@
 
 <script>
 export default {
-  name: 'Protected',
+  name: 'Login',
   created () {
     this.$router.push('/')
   }

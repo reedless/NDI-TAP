@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Login from './views/Login.vue'
 import TravelAlerts from './views/TravelAlerts.vue'
 import OidcCallback from './views/OidcCallback.vue'
-import OidcPopupCallback from './views/OidcPopupCallback.vue'
 import OidcCallbackError from './views/OidcCallbackError.vue'
 import { vuexOidcCreateRouterMiddleware } from 'vuex-oidc'
 import store from '@/store'
@@ -34,22 +34,17 @@ const router = new Router({
       }
     },
     {
-      path: '/protected',
-      name: 'protected',
-      component: () => import(/* webpackChunkName: "protected" */ './views/Protected.vue')
+      path: '/login',
+      name: 'login',
+      component: Login
     },
     {
-      path: '/oidc-callback', // Needs to match redirectUri in you oidcSettings
+      path: '/oidc-callback', // Needs to match redirectUri in oidcSettings
       name: 'oidcCallback',
       component: OidcCallback
     },
     {
-      path: '/oidc-popup-callback', // Needs to match popupRedirectUri in you oidcSettings
-      name: 'oidcPopupCallback',
-      component: OidcPopupCallback
-    },
-    {
-      path: '/oidc-callback-error', // Needs to match redirect_uri in you oidcSettings
+      path: '/oidc-callback-error', // Needs to match redirect_uri in oidcSettings
       name: 'oidcCallbackError',
       component: OidcCallbackError,
       meta: {

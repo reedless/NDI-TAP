@@ -8,11 +8,16 @@
     <form>
       <div class="form-group">
         <label for="exampleInputEmail1">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="name@example.com" required>
-        <div class="invalid-feedback">
-          Please provide a valid email.
-        </div>
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        <input
+          type="email"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          placeholder="name@example.com"
+          required>
+        <small id="emailHelp" class="form-text text-muted">
+          We'll never share your email with anyone else.
+        </small>
       </div>
       <div class="form-check" v-for="(country, index) in countrylist" :key="index">
         <input
@@ -24,7 +29,10 @@
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-    <span>Checked countries: {{ checkedCountries }}</span>
+    <span>
+      Checked countries:
+      {{ (checkedCountries.length === 0) ? 'None' : checkedCountries}}
+    </span>
   </div>
 </template>
 

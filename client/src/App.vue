@@ -50,7 +50,7 @@ export default {
       console.log('I am listening to the automaticSilentRenewError event in vuex-oidc', e.detail)
     },
     login: function () {
-      this.$router.push('/protected')
+      this.$router.push('/login')
     },
     signOut: function () {
       this.removeOidcUser().then(() => {

@@ -11,20 +11,13 @@
                   <label class="control-label" for="date">From: </label>
                   &ensp;
                   <select class="custom-select" v-model="from" name="from">
-                    <!-- <option>Select Country</option> -->
                     <option selected value="SIN"> Singapore </option>
-                    <!-- <option -->
-                      <!-- v-for="(country, index) in countries" :key="index" -->
-                      <!-- :value=country.airportCode> -->
-                        <!-- {{ country.name }} -->
-                    <!-- </option> -->
                   </select>
                   &emsp;
                   <label class="control-label" for="date">To: </label>
                   &ensp;
                   <select class="custom-select" v-model="to" name="to">
                     <option selected>Select Country</option>
-                    <!-- <option value="SIN"> Singapore </option> -->
                     <option
                       v-for="(country, index) in countries" :key="index"
                       :value=country.airportCode>
@@ -67,8 +60,7 @@
       </div>
     </div>
     <div v-else>
-    <!-- <div v-else-if="oidcAuthenticationIsChecked"> -->
-      <a href="/protected" onclick="clickAndDisable(this);">
+      <a href="/login" onclick="clickAndDisable(this);">
         <img
           src="../assets/loginsingpass.png"
           class="img-fluid"
@@ -89,10 +81,10 @@ import jsonMarkup from 'json-markup'
 
 const backendPath = process.env.VUE_APP_ROOT_API
 
-const flightSearchPath = process.env.SIA_API_FLIGHT_SEARCH
+// const flightSearchPath = process.env.SIA_API_FLIGHT_SEARCH
 
 export default {
-  name: 'SignedInUser',
+  name: 'FlightSearch',
   props: ['countries'],
   components: {
     Datepicker
